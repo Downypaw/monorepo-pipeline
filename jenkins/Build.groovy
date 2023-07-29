@@ -9,7 +9,7 @@ properties([
 
 node {
     stage('Checkout') {
-        git branch: 'features/ci', url: 'https://github.com/whoisYeshua/monorepo-example.git'
+        git branch: 'feature/ci', url: 'https://github.com/whoisYeshua/monorepo-example.git'
     }
 
     stage('Use Source Code') {
