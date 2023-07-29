@@ -20,6 +20,8 @@ node {
     stage('Build Docker Image') {
         // Optional: Push the Docker image to a Docker registry
         println('inside registry')
+
+        echo 'docker --version'
         def image = docker.build("monorepo")
 
         println('before registry')
