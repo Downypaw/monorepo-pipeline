@@ -17,11 +17,14 @@ node {
         sh 'ls -l'
     }
 
+    stage('Check Docker version') {
+        sh 'docker --version'
+    }
+
     stage('Build Docker Image') {
         // Optional: Push the Docker image to a Docker registry
         println('inside registry')
 
-        sh 'docker --version'
         def image = docker.build("monorepo")
 
         println('before registry')
