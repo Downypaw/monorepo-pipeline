@@ -19,11 +19,13 @@ node {
 
     stage('Build Docker Image') {
         // Optional: Push the Docker image to a Docker registry
+        println('inside registry')
+        def image = docker.build("monorepo")
+
         println('before registry')
         docker.withRegistry('https://registry.hub.docker.com', '0f5d8e3e-e52e-472f-be6e-cc4e558cd32c') {
             // The Dockerfile is in the current directory
-            println('inside registry')
-            def image = docker.build("monorepo")
+            
             echo 'after build'
             image.push("${env.BUILD_NUMBER}")
             image.push("latest")
