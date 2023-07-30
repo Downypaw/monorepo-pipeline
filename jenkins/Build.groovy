@@ -9,7 +9,9 @@ properties([
 
 node {
     stage('Checkout') {
-        git branch: 'feature/ci', url: 'https://github.com/whoisYeshua/monorepo-example.git'
+        git branch: 'feature/ci', 
+        url: 'git@github.com:whoisYeshua/monorepo-example.git',
+        credentialsId: 'jenkins-github-monorepo-example'
     }
 
     stage('Check Source Code') {
@@ -17,22 +19,22 @@ node {
         sh 'ls -l'
     }
 
-    def image = null
+    // def image = null
 
-    stage('Check Docker version') {
-        sh 'docker --version'
-    }
+    // stage('Check Docker version') {
+    //     sh 'docker --version'
+    // }
 
-    stage('Build Docker Image') {
-        // The Dockerfile is in the current directory
-        image = docker.build("whoisyeshua/monorepo-${env.MODULE}", "--build-arg MODULE=${env.MODULE} .")
+    // stage('Build Docker Image') {
+    //     // The Dockerfile is in the current directory
+    //     image = docker.build("whoisyeshua/monorepo-${env.MODULE}", "--build-arg MODULE=${env.MODULE} .")
 
-    }
+    // }
 
-    stage('Push Docker Image') {
-        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-whoisyeshua') {
-            image.push("${env.BUILD_NUMBER}")
-            image.push("latest")
-        }
-    }
+    // stage('Push Docker Image') {
+    //     docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-whoisyeshua') {
+    //         image.push("${env.BUILD_NUMBER}")
+    //         image.push("latest")
+    //     }
+    // }
 }
