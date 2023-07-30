@@ -14,12 +14,31 @@ node {
         credentialsId: 'jenkins-github-monorepo-example'
     }
 
-    stage('Check Source Code') {
-        // Print all files and directories in the current workspace
-        sh 'ls -l'
+    // stage('Check Source Code') {
+    //     // Print all files and directories in the current workspace
+    //     sh 'ls -l'
+    // }
+
+    def image = null
+
+    // stage('Check Docker version') {
+    //     sh 'docker --version'
+    // }
+
+    stage('Build Docker Image') {
+        // The Dockerfile is in the current directory
+        image = docker.build("whoisyeshua/monorepo-${env.MODULE}", "--build-arg MODULE=${env.MODULE} .")
+
     }
 
-    stage('Push tag') {
+    stage('Push Docker Image') {
+        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-whoisyeshua') {
+            image.push("${env.BUILD_NUMBER}")
+            image.push("latest")
+        }
+    }
+
+    stage('Push Git tag') {
         sh """
         git config user.name 'jenkins-agent'
         git config user.email 'jenkins-agent@users.noreply.github.example.com'
@@ -32,23 +51,4 @@ node {
         git push origin ${releaseTag}
         """
     }
-
-    // def image = null
-
-    // stage('Check Docker version') {
-    //     sh 'docker --version'
-    // }
-
-    // stage('Build Docker Image') {
-    //     // The Dockerfile is in the current directory
-    //     image = docker.build("whoisyeshua/monorepo-${env.MODULE}", "--build-arg MODULE=${env.MODULE} .")
-
-    // }
-
-    // stage('Push Docker Image') {
-    //     docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-whoisyeshua') {
-    //         image.push("${env.BUILD_NUMBER}")
-    //         image.push("latest")
-    //     }
-    // }
 }
