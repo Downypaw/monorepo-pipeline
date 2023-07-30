@@ -9,7 +9,7 @@ properties([
 
 node {
     stage('Checkout') {
-        git branch: 'feature/ci', 
+        git branch: 'master', 
         url: 'git@github.com:whoisYeshua/monorepo-example.git',
         credentialsId: 'jenkins-github-monorepo-example'
     }
@@ -25,9 +25,11 @@ node {
         git config user.email 'jenkins-agent@users.noreply.github.example.com'
         """
 
+        def releaseTag = "release/${env.MODULE}-v${env.BUILD_NUMBER}"
+
         sh """
-        git tag -a v${env.BUILD_NUMBER} -m 'Tagging at Jenkins build #${env.BUILD_NUMBER}'
-        git push origin v${env.BUILD_NUMBER}
+        git tag -a ${releaseTag} -m 'Tagging at Jenkins build ${releaseTag}'
+        git push origin ${releaseTag}
         """
     }
 
