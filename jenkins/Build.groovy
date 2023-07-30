@@ -20,15 +20,15 @@ node {
     }
 
     stage('Push tag') {
-        sh '''
+        sh """
         git config user.name 'jenkins-agent'
         git config user.email 'jenkins-agent@users.noreply.github.example.com'
-        '''
+        """
 
-        sh '''
-        git tag -a v${env.BUILD_NUMBER} -m "Tagging at Jenkins build #${env.BUILD_NUMBER}"
+        sh """
+        git tag -a v${env.BUILD_NUMBER} -m 'Tagging at Jenkins build #${env.BUILD_NUMBER}'
         git push origin v${env.BUILD_NUMBER}
-        '''
+        """
     }
 
     // def image = null
