@@ -25,7 +25,7 @@ node {
 
     stage('Build Docker Image') {
         // The Dockerfile is in the current directory
-        image = docker.build("whoisyeshua/monorepo-${env.MODULE}", "--build-args MODULE=${env.MODULE}")
+        image = docker.build("whoisyeshua/monorepo-${env.MODULE}", "--build-arg MODULE=${env.MODULE}")
 
     }
 
