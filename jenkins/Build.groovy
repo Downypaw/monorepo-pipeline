@@ -17,19 +17,21 @@ node {
         sh 'ls -l'
     }
 
+    def image = null
+
     stage('Check Docker version') {
         sh 'docker --version'
     }
 
     stage('Build Docker Image') {
         // The Dockerfile is in the current directory
-        def image = docker.build("monorepo-${env.module}:${env.BUILD_NUMBER}")
+        image = docker.build("whoisyeshua/monorepo-${env.module}:${env.BUILD_NUMBER}")
 
-        println('before registry')
+    }
+
+    stage('Push Docker Image') {
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-whoisyeshua') {
-            
-            echo 'after build'
-            image.push("${env.BUILD_NUMBER}")
+            image.push("whoisyeshua/${env.BUILD_NUMBER}")
             image.push("latest")
         }
     }
