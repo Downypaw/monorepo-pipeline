@@ -28,12 +28,12 @@ node {
         listGitBranches(
           name: 'BRANCH_NAME',
           description: 'Ветка из которой выполнить сборку',
-          credentialsId: 'jenkins-github-monorepo-example', 
+          credentialsId: 'jenkins-github-monorepo-example',
           type: 'BRANCH',
-          remoteURL: constants.repoSShUrl, 
+          remoteURL: constants.repoSShUrl,
           listSize: '0',
-          quickFilterEnabled: true, 
-          defaultValue: 'refs/heads/develop', 
+          quickFilterEnabled: true,
+          defaultValue: 'refs/heads/develop',
           selectedValue: 'TOP'
         ),
         choice(
@@ -43,7 +43,7 @@ node {
         ),
         string(
           name: 'TYZ_CRED',
-          defaultValue: 'params.expert.TYZ', 
+          defaultValue: 'params.expert.TYZ',
           trim: true,
           description: 'Cred ID Ta'
         ),
@@ -54,10 +54,10 @@ node {
           description: 'Docker registry address. "image registry" in Helm values'
         ),
         choice(
-          name: 'DOCKER_REPOSITORY', 
-          choices: dockerRepos, 
+          name: 'DOCKER_REPOSITORY',
+          choices: dockerRepos,
           description: 'Docker repository for docker image."Image.repository" in Helm values',
-        ), 
+        ),
         string(
           name: 'PROJECT_NAME',
           defaultValue: 'ci04499999-des',
@@ -71,11 +71,11 @@ node {
           description: "Префикс тега для docker image, через дефис добавится номер сборки, например prefix-123"
         ),
         string(
-          name: 'DOCKER_TAG', 
+          name: 'DOCKER_TAG',
           defaultValue: '',
           trim: true,
           description: "Полное переопределение тега для docker image (оставить пустым - подставит префикс + номер сборки)"
-        )
+        ),
       ])
     ])
   }
